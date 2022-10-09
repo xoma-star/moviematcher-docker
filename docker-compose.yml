@@ -2,7 +2,8 @@ version: '3.9'
 
 services:
   server:
-    build: ./server
+    build:
+      context: .
     restart: unless-stopped
     depends_on:
       - pocketbase
@@ -33,6 +34,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
     ports:
       - '80:80'
       - '443:443'
@@ -46,13 +48,20 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-    command: certbot --nginx --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
+      - web-root:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
     networks:
       - app-network
 volumes:
   certbot-etc:
   certbot-var:
   pocketbase-data:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/root/server
+      o: bind
 
 networks:
   app-network:
