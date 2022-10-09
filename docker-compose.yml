@@ -1,13 +1,6 @@
 version: '3.9'
 
 services:
-  pocketbase:
-    build: ./pocketbase
-    restart: unless-stopped
-    ports:
-      - '127.0.0.1:8090:8090'
-    volumes:
-      - pocketbase-data:/pb_data
   server:
     build: ./server
     restart: on-failure
@@ -16,6 +9,12 @@ services:
       - redis
     ports:
       - '3000:3000'
+  pocketbase:
+    build: ./pocketbase
+    ports:
+      - '127.0.0.1:8090:8090'
+    volumes:
+      - pocketbase-data:/pb_data
   redis:
     image: redis
     ports:
@@ -25,7 +24,9 @@ services:
     depends_on:
       - server
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
+      - ./nginx:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
     ports:
       - '80:80'
       - '443:443'
@@ -35,8 +36,11 @@ services:
     depends_on:
       - nginx
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/html --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 volumes:
+  certbot-etc:
+  certbot-var:
   pocketbase-data:
-  ./data/certbot/conf:
