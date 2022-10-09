@@ -9,59 +9,35 @@ services:
       - redis
     ports:
       - '3000:3000'
-    networks:
-      - app-network
   pocketbase:
     build: ./pocketbase
     ports:
       - '127.0.0.1:8090:8090'
     volumes:
       - pocketbase-data:/pb_data
-    networks:
-      - app-network
   redis:
     image: redis
     ports:
       - '6379:6379'
-    networks:
-      - app-network
   nginx:
     image: nginx
     depends_on:
       - server
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
     ports:
       - '80:80'
       - '443:443'
     restart: unless-stopped
-    networks:
-      - app-network
   certbot:
     image: certbot/certbot
     depends_on:
       - nginx
     volumes:
-      - certbot-etc:/etc/letsencrypt
-      - certbot-var:/var/lib/letsencrypt
-      - web-root:/var/www/html
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/html
     command: certonly --webroot --webroot-path=/var/www/html --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
-    networks:
-      - app-network
 volumes:
   certbot-etc:
   certbot-var:
   pocketbase-data:
-  web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/root/server
-      o: bind
-
-networks:
-  app-network:
-    driver: bridge
