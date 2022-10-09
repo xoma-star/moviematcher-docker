@@ -30,7 +30,6 @@ services:
     depends_on:
       - server
     volumes:
-      - web-root:/var/www/html
       - ./nginx:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
@@ -45,22 +44,15 @@ services:
     depends_on:
       - nginx
     volumes:
-      - web-root:/var/www/html
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-    command: certonly --webroot --webroot-path=/var/www/html --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
+    command: certonly --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
     networks:
       - app-network
 volumes:
   certbot-etc:
   certbot-var:
   pocketbase-data:
-  web-root:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/root/server/
-      o: bind
 
 networks:
   app-network:
