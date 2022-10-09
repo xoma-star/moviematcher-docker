@@ -11,6 +11,9 @@ services:
   server:
     build: ./server
     restart: on-failure
+    depends_on:
+      - pocketbase
+      - redis
     ports:
       - '3000:3000'
   redis:
