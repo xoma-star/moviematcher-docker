@@ -24,7 +24,7 @@ services:
     depends_on:
       - server
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - '80:80'
       - '443:443'
