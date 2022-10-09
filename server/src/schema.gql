@@ -1,0 +1,71 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type MoviesEntity {
+  """id на tmdb"""
+  tmdb_id: Float!
+  id: String!
+  imdb_id: String!
+  rating: Float!
+  companies: [String!]!
+  countries: [String!]!
+
+  """название фильма"""
+  title: String!
+
+  """краткое описание"""
+  overview: String!
+
+  """жанры"""
+  genres: [String!]!
+
+  """дата выхода"""
+  release_date: String!
+
+  """кадры"""
+  screens: [String!]!
+  popularity: Float!
+  runtime: Int!
+}
+
+type UserEntity {
+  id: String
+  vk_user_id: Int!
+  liked: [String!]!
+  disliked: [String!]!
+  saved: [String!]!
+  skipped: [String!]!
+  favourite_genres: [String!]!
+}
+
+type Query {
+  getGenreList: [String!]!
+  getMovies(ids: [String!]!): [MoviesEntity!]!
+  getAllMovies: [MoviesEntity!]!
+  getUser(id: String!): UserEntity!
+  getUserByVk(id: Int!): UserEntity!
+  getRecommended(id: String!, count: Int = 5): [MoviesEntity!]!
+}
+
+type Mutation {
+  createUser(id: Int!): UserEntity!
+  updateUser(id: String!, data: UpdateUserInputType!): UserEntity!
+  pushMovie(id: String!, to: pushMovieToType!, movieId: String!, force: Boolean = false): UserEntity!
+  updateGenres(id: String!, genres: [String!]!): UserEntity!
+}
+
+input UpdateUserInputType {
+  liked: [String!]
+  disliked: [String!]
+  saved: [String!]
+  skipped: [String!]
+  willBeShown: [Int!]
+}
+
+enum pushMovieToType {
+  liked
+  disliked
+  saved
+  skipped
+}

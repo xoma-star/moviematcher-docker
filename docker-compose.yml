@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  pocketbase:
+    build: ./pocketbase
+    restart: unless-stopped
+    ports:
+      - '8090:8090'
+    volumes:
+      - pocketbase-data:/pb_data
+  server:
+    build: ./server
+    restart: on-failure
+    ports:
+      - '3000:3000'
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+  nginx:
+    image: nginx
+    depends_on:
+      - server
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    ports:
+      - '80:80'
+      - '443:443'
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+volumes:
+  pocketbase-data:
