@@ -46,7 +46,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
-    command: certonly --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
+    command: certbot --nginx --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
     networks:
       - app-network
 volumes:
