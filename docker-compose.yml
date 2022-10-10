@@ -25,6 +25,8 @@ services:
       - server
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     ports:
       - '80:80'
       - '443:443'
@@ -35,8 +37,8 @@ services:
       - nginx
     volumes:
       - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot --webroot-path=/var/www/certbot --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
+      - ./certbot/www:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
 volumes:
   certbot-etc:
   certbot-var:
