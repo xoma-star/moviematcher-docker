@@ -38,7 +38,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot --webroot-path=/var/www/certbot --email sasha.sirotyin09@gmail.com --agree-tos --no-eff-email --staging -d api.xoma-star.tk -d pb.xoma-star.tk
+    command: certonly --webroot --webroot-path=/var/www/certbot --email sasha.sirotyin09@gmail.com --force-renewal --agree-tos --no-eff-email -d api.xoma-star.tk -d pb.xoma-star.tk
 volumes:
   certbot-etc:
   certbot-var:
