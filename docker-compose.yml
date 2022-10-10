@@ -31,6 +31,7 @@ services:
       - '80:80'
       - '443:443'
     restart: unless-stopped
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
     depends_on:
@@ -38,6 +39,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     command: certonly --webroot --webroot-path=/var/www/certbot --email sasha.sirotyin09@gmail.com --force-renewal --agree-tos --no-eff-email -d api.xoma-star.tk -d pb.xoma-star.tk
 volumes:
   certbot-etc:
