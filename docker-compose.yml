@@ -23,7 +23,7 @@ services:
     ports:
       - '8090:8090'
     volumes:
-      - /root/pocketbase:/pb_data
+      - /root/pocketbase:/usr/local/bin/pb_data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pocketbase.rule=Host(`pb.xoma-star.tk`)"
