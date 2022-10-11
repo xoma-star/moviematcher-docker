@@ -23,7 +23,7 @@ services:
     ports:
       - '127.0.0.1:8090:8090'
     volumes:
-      - pocketbase-data:/pb_data
+      - pocketbase:/pb_data
   redis:
     image: redis
     ports:
@@ -51,7 +51,3 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-volumes:
-  certbot-etc:
-  certbot-var:
-  pocketbase-data:
