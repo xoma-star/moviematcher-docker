@@ -62,3 +62,4 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 volumes:
   pocketbase:
+    external: true
