@@ -1,6 +1,6 @@
 FROM node:18
 
-RUN mkdir -p /home/root/server/node_modules && chown -R root:root /home/root/server
+RUN mkdir -p /home/root/server
 
 WORKDIR /home/root/server
 
@@ -13,5 +13,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+
+EXPOSE 3000
 
 CMD ["node", "dist/main.js"]
