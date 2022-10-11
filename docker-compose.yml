@@ -11,9 +11,9 @@ services:
       - '3000:3000'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node-server.rule=Host(`api.xoma-star.tk`)"
-      - "traefik.http.routers.node-server.entrypoints=websecure"
-      - "traefik.http.routers.node-server.tls.certresolver=myresolver"
+      - "traefik.http.routers.server.rule=Host(`api.xoma-star.tk`)"
+      - "traefik.http.routers.server.entrypoints=websecure"
+      - "traefik.http.routers.server.tls.certresolver=myresolver"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.redirs.entrypoints=web"
@@ -26,9 +26,9 @@ services:
       - pocketbase:/pb_data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node-server.rule=Host(`pb.xoma-star.tk`)"
-      - "traefik.http.routers.node-server.entrypoints=websecure"
-      - "traefik.http.routers.node-server.tls.certresolver=myresolver"
+      - "traefik.http.routers.pocketbase.rule=Host(`pb.xoma-star.tk`)"
+      - "traefik.http.routers.pocketbase.entrypoints=websecure"
+      - "traefik.http.routers.pocketbase.tls.certresolver=myresolver"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
       - "traefik.http.routers.redirs.entrypoints=web"
