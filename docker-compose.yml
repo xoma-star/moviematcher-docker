@@ -23,7 +23,7 @@ services:
     ports:
       - '8090:8090'
     volumes:
-      - pocketbase:/pb_data
+      - /root/pocketbase:/pb_data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pocketbase.rule=Host(`pb.xoma-star.tk`)"
@@ -60,6 +60,3 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-volumes:
-  pocketbase:
-    external: true
