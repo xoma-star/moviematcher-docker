@@ -4,7 +4,7 @@ import {RedisService} from "../redis/redis.service";
 const PocketBase = require('pocketbase/cjs')
 require('cross-fetch/polyfill')
 
-const client = new PocketBase('http://0.0.0.0:8090');
+const client = new PocketBase('http://pocketbase:8090');
 
 @Injectable()
 export class PbService {
